@@ -69,3 +69,54 @@ ID: K8s Dasboard         15661
 https://mantalus.com/blog/prometheus-and-grafana-on-amazon-eks-2/
 https://grafana.com/grafana/dashboards/
 ```
+
+# Helm Apps
+```
+helm list -A
+helm get values prometheus-kube-prometheus -n monitoring
+```
+## Nginx
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+```
+```
+helm install mi-web-demo bitnami/nginx \
+  --set replicaCount=2 \
+  --set service.type=LoadBalancer
+```
+```
+kubectl get svc mi-web-demo-nginx
+```
+```
+helm upgrade mi-web-demo bitnami/nginx \
+  --set replicaCount=5 \
+  --set service.type=LoadBalancer
+```
+```
+helm uninstall mi-web-demo
+```
+```
+helm pull bitnami/nginx --untar
+cd nginx
+ls -R
+tree
+```
+## Wordpess
+```
+helm install wordpress-efimero bitnami/wordpress \
+  --set service.type=LoadBalancer \
+  --set persistence.enabled=false \
+  --set mariadb.primary.persistence.enabled=false \
+  --set wordpressUsername=admin \
+  --set wordpressPassword=password123
+```
+```
+kubectl get pvc
+```
+```
+helm uninstall wordpress-efimero
+```
+```
+helm list
+```
